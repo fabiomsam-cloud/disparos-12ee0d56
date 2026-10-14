@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>SOU · Disparos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#f5f6f8; --surface:#ffffff; --surface-2:#f2f4f7;
+  --ink:#0f172a; --ink-2:#334155; --muted:#64748b;
+  --grid:#e5e8ee; --ring:rgba(15,23,42,.08);
+  --gold:#b7791f; --gold-soft:rgba(183,121,31,.12);
+  --blue:#2563eb; --green:#15803d; --red:#dc2626; --amber:#b45309; --black:#111827; --cyan:#009BBE;
+  --disp:"Bricolage Grotesque",sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45;min-height:100vh;position:relative}
+body::before{content:"";position:absolute;left:0;right:0;top:0;height:520px;pointer-events:none;z-index:0;
+  background:radial-gradient(900px 380px at 85% -20%, rgba(0,155,190,.10), transparent 60%),
+             radial-gradient(700px 320px at -5% 0%, rgba(17,24,39,.06), transparent 55%)}
+.wrap{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:26px 30px 90px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.brand h1{font-family:var(--disp);font-weight:800;font-size:31px;letter-spacing:-.6px;line-height:1.02}
+.brand h1 em{font-style:normal;color:var(--cyan)}
+.brand .sub{color:var(--muted);font-size:12.5px;margin-top:7px;letter-spacing:.2px}
+.brand .sub b{color:var(--ink-2);font-weight:600}
+.stamp{text-align:right;font-size:12px;color:var(--muted)}
+.stamp .clock{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--ink-2);letter-spacing:-.2px}
+.stamp .upd b{color:var(--ink-2)}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,.04);margin-bottom:12px}
+.card h2{font-family:var(--disp);font-weight:700;font-size:17px;letter-spacing:-.2px}
+.card .hint{color:var(--muted);font-size:12px;margin-top:3px}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.grid{display:grid;gap:12px;margin-bottom:12px}
+.g-two{grid-template-columns:1.35fr 1fr}
+.g-eq{grid-template-columns:1fr 1fr}
+@media(max-width:1080px){.g-two,.g-eq{grid-template-columns:1fr}}
+.grid .card{margin-bottom:0}
+/* barra de período + filtros */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--ring);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:7px 12px;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--cyan);color:#fff}
+.tools input[type=date],.tools select,.tools input[type=search]{border:1px solid var(--ring);border-radius:10px;padding:7px 10px;font:inherit;font-size:12.5px;background:var(--surface);color:var(--ink-2)}
+.tools label.chk{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+/* rail */
+.rail{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.cd{background:var(--surface);border:1px solid var(--ring);border-radius:12px;padding:9px 14px;display:flex;align-items:baseline;gap:8px}
+.cd .n{font-family:var(--disp);font-weight:800;font-size:21px;color:var(--cyan);letter-spacing:-.4px}
+.cd .n.ok{color:var(--green)} .cd .n.gold{color:var(--gold)}
+.cd .l{font-size:11.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}}
+.tk{background:var(--surface-2);border-radius:12px;padding:13px 15px}
+.tk .l{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.tk .v{font-family:var(--disp);font-weight:800;font-size:24px;margin-top:5px;letter-spacing:-.4px}
+.tk .s{font-size:11.5px;color:var(--muted);margin-top:3px}
+.tk.hi .v{color:var(--cyan)} .tk.ok .v{color:var(--green)} .tk.gold .v{color:var(--gold)} .tk.bad .v{color:var(--red)}
+/* tabela */
+.rs-wrap{overflow-x:auto}
+.rs{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px}
+.rs th{text-align:right;color:var(--muted);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--grid);white-space:nowrap}
+.rs th.sortable{cursor:pointer} .rs th.sorted{color:var(--cyan)}
+.rs th:first-child,.rs td:first-child{text-align:left}
+.rs td{padding:8px;border-bottom:1px solid var(--grid);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap}
+.rs td:first-child{color:var(--ink);font-weight:600;white-space:normal;min-width:260px}
+.rs tr:last-child td{border-bottom:0}
+.rs tr.tot td{border-top:2px solid var(--grid);font-weight:700;color:var(--ink)}
+.rs td small{color:var(--muted);font-size:10.5px;font-weight:400}
+.rs td.ok{color:var(--green);font-weight:600} .rs td.mid{color:var(--amber);font-weight:600} .rs td.bad{color:var(--red);font-weight:600}
+.rs td.dim{color:var(--muted)} .rs td.hl{background:rgba(0,155,190,.07);font-weight:700;color:var(--ink)}
+.bar{display:inline-block;height:9px;border-radius:4px;background:var(--cyan);vertical-align:middle;margin-right:6px;min-width:2px}
+.bdg{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700;white-space:nowrap;letter-spacing:.04em;display:inline-block}
+.bdg.running{background:rgba(21,128,61,.15);color:#15803d}
+.bdg.scheduled{background:rgba(37,99,235,.14);color:#1d4ed8}
+.bdg.done{background:rgba(15,23,42,.08);color:var(--muted)}
+.bdg.draft{background:rgba(180,83,9,.14);color:#92400e}
+.bdg.paused{background:rgba(220,38,38,.14);color:#b42318}
+.bdg.fr{background:rgba(15,23,42,.06);color:var(--ink-2);font-weight:600}
+.bdg.ob{color:#fff}
+.bdg.manual{background:var(--gold-soft);color:var(--gold)}
+/* dias */
+.vday{display:flex;align-items:flex-end;gap:4px;height:150px;margin-top:10px;overflow-x:auto;padding-bottom:4px}
+.vday .vb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;min-width:22px}
+.vday .stack{width:100%;max-width:38px;display:flex;flex-direction:column-reverse;justify-content:flex-start}
+.vday .seg2{width:100%;min-height:1px}
+.vday .dl{font-size:9.5px;color:var(--muted);white-space:nowrap}
+.vday .dv{font-size:10px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.vday .ev{font-size:9.5px;color:var(--green);font-weight:600;white-space:nowrap}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.note{font-size:11.5px;color:var(--muted);margin-top:12px}
+.all-ok{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:var(--surface-2);color:var(--muted);font-size:13px}
+.err{background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.4);border-radius:12px;padding:16px;color:#b42318;font-size:13px;margin-bottom:12px;display:none}
+.sync{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
+.sync b{color:var(--ink-2);font-weight:600}
+.sync .late{color:#b42318}
+.fad{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.fad .f{background:var(--surface-2);border-radius:10px;padding:10px 14px;min-width:110px}
+.fad .f .n{font-family:var(--disp);font-weight:800;font-size:20px} .fad .f .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.fad .f.warn .n{color:var(--amber)} .fad .f.bad .n{color:var(--red)}
+.msg{font-size:11px;color:var(--muted);font-weight:400;white-space:normal;display:block;margin-top:2px}
+footer{color:var(--muted);font-size:11.5px;margin-top:22px;text-align:center}
+.loading{opacity:.55;pointer-events:none}
+@media(max-width:640px){.wrap{padding:18px 14px 70px}.brand h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+
+<header>
+  <div class="brand">
+    <h1>SOU · <em>DISPAROS</em></h1>
+    <div class="sub">Todos os disparos da Anne desde <b>jul/26</b> · classificação automática por frente e objetivo · resultado por <b>último toque</b> (7 dias) · custo R$ <span id="tarifa">0,43</span>/envio · espelho a cada 5 min</div>
+  </div>
+  <div class="stamp">
+    <div class="clock" id="clock">—</div>
+    <div class="upd">último dado: <b id="upd">carregando…</b></div>
+    <div>fuso America/Manaus · vendas = matrícula na Hubla (1ª parcela) · receita líquida já recebida</div>
+  </div>
+</header>
+
+<div class="tools">
+  <div class="seg" id="periodo">
+    <button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="mes">Este mês</button><button data-p="mes-1">Mês passado</button><button data-p="tudo">Tudo</button>
+  </div>
+  <input type="date" id="ini" title="Início"> <input type="date" id="fim" title="Fim">
+  <select id="f-frente"><option value="">Todas as frentes</option></select>
+  <select id="f-obj"><option value="">Todos os objetivos</option></select>
+  <select id="f-agente"><option value="">Todos os agentes</option></select>
+  <input type="search" id="f-busca" placeholder="buscar campanha ou template">
+  <label class="chk"><input type="checkbox" id="f-testes"> mostrar testes</label>
+  <label class="chk"><input type="checkbox" id="f-zero"> mostrar sem envio</label>
+</div>
+
+<div class="rail" id="rail"></div>
+<div class="err" id="err"></div>
+
+<!-- KPIs -->
+<div class="card">
+  <div class="card-head">
+    <div><h2>Resumo do período</h2><div class="hint" id="resumo-hint">Campanhas filtradas · enviados → responderam → entraram no grupo / compraram · opt-outs · custo e receita líquida por último toque</div></div>
+  </div>
+  <div class="kpis">
+    <div class="tk"><div class="l">Enviados</div><div class="v" id="k-env">—</div><div class="s" id="k-env-s">—</div></div>
+    <div class="tk"><div class="l">Custo estimado</div><div class="v" id="k-custo">—</div><div class="s" id="k-custo-s">—</div></div>
+    <div class="tk hi"><div class="l">Responderam</div><div class="v" id="k-resp">—</div><div class="s" id="k-resp-s">—</div></div>
+    <div class="tk bad"><div class="l">Opt-outs</div><div class="v" id="k-opt">—</div><div class="s" id="k-opt-s">—</div></div>
+    <div class="tk ok"><div class="l">Vendas · último toque</div><div class="v" id="k-vendas">—</div><div class="s" id="k-vendas-s">—</div></div>
+    <div class="tk gold"><div class="l">Receita líquida</div><div class="v" id="k-rec">—</div><div class="s" id="k-rec-s">—</div></div>
+  </div>
+</div>
+
+<!-- LINHA DO TEMPO -->
+<div class="card">
+  <div class="card-head">
+    <div><h2>Linha do tempo</h2><div class="hint">Envios por dia (cor = objetivo) · em verde, vendas por último toque no dia · dia calendário de Manaus</div></div>
+  </div>
+  <div class="vday" id="vday"></div>
+  <div class="legend" id="legenda"></div>
+  <div class="note" id="vday-note"></div>
+</div>
+
+<div class="grid g-two">
+  <div class="card">
+    <div class="card-head"><div><h2>Funil por frente</h2><div class="hint">Soma das campanhas filtradas · % sobre enviados · ROI = receita líquida ÷ custo</div></div></div>
+    <div class="rs-wrap"><table class="rs" id="por-frente"></table></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h2>Por objetivo</h2><div class="hint">Cada objetivo tem sua métrica mestra: convite e Black = grupo · oferta, promo e blindado = vendas · demais = respostas</div></div></div>
+    <div class="rs-wrap"><table class="rs" id="por-obj"></table></div>
+  </div>
+</div>
+
+<!-- CAMPANHAS -->
+<div class="card">
+  <div class="card-head">
+    <div><h2>Campanhas</h2><div class="hint">Uma linha por campanha da Anne · clique no título da coluna para ordenar · a coluna destacada é a métrica mestra do objetivo · <span class="bdg manual">manual</span> = rótulo corrigido à mão</div></div>
+    <div class="note" id="camp-count" style="margin-top:0"></div>
+  </div>
+  <div class="rs-wrap"><table class="rs" id="campanhas"></table></div>
+  <div class="note">Vendas = matrículas (1ª parcela, nunca renovação) cujo telefone recebeu este disparo como ÚLTIMO toque nos 7 dias antes do pagamento. Entre parênteses, vendas influenciadas (qualquer envio nos 7 dias) — é o número antigo, superestimado. Pulados = já em conversa com a IA + opt-out.</div>
+</div>
+
+<div class="grid g-eq">
+  <!-- SAÚDE -->
+  <div class="card">
+    <div class="card-head"><div><h2>Saúde da base</h2><div class="hint">Fadiga de toque nos 30 dias até o fim do período · pulados por motivo · opt-out por template</div></div></div>
+    <div class="fad" id="fadiga"></div>
+    <div class="rs-wrap" style="margin-top:14px"><table class="rs" id="fadiga-frente" style="min-width:0"></table></div>
+    <div class="fad" id="pulados" style="margin-top:14px"></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h2>Opt-out por template</h2><div class="hint">Templates com ≥ 100 envios no período · opt-out por último toque · acima de 2% é sinal de copy que queima base</div></div></div>
+    <div class="rs-wrap"><table class="rs" id="optout-tpl" style="min-width:0"></table></div>
+  </div>
+</div>
+
+<!-- FILA -->
+<div class="card">
+  <div class="card-head"><div><h2>Próximos disparos</h2><div class="hint">Rascunhos, agendados, pausados e em andamento (independente do período) · nada aqui dispara sozinho sem OK</div></div></div>
+  <div id="fila"></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div><h2>Saúde dos dados</h2><div class="hint">Última atualização de cada fonte no Data Core</div></div></div>
+  <div class="sync" id="sync"></div>
+</div>
+
+<footer>Disparos · Anne Vendedora · Sou Concurseiro e Vou Passar · painel interno</footer>
+</div>
+
+<script>
+const API  = "https://dqpxugdhlgafvddavzzp.supabase.co/functions/v1/dashboard-disparos";
+const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxcHh1Z2RobGdhZnZkZGF2enpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxODQ1NTMsImV4cCI6MjA5Nzc2MDU1M30.nUhYPO3oLUZEXgQCDlRtL-Jawi0nr0l1Z7_z5ecEXvc";
+const K = new URLSearchParams(location.search).get("k") || "";
+const $ = id => document.getElementById(id);
+const fmtN = v => Math.round(v||0).toLocaleString("pt-BR");
+const fmtR = v => "R$ " + Math.round(v||0).toLocaleString("pt-BR");
+const fmtR2 = v => "R$ " + (v||0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct = (a,b) => b>0 ? a/b : null;
+const fmtPct = p => p==null ? "—" : (p*100 < 10 ? (p*100).toFixed(1).replace(".",",") : Math.round(p*100)) + "%";
+const fmtX = (a,b) => b>0 && a>0 ? (a/b).toFixed(1).replace(".",",") + "×" : "—";
+const esc = s => String(s??"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ddmm = iso => iso ? iso.slice(8,10) + "/" + iso.slice(5,7) : "—";
+const hora = ts => ts ? new Date(ts).toLocaleString("pt-BR",{timeZone:"America/Manaus",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}).replace(",", " ·") : "—";
+const hojeManaus = () => new Date(Date.now() - 4*3600e3).toISOString().slice(0,10);
+const addDays = (iso, n) => new Date(Date.parse(iso) + n*86400e3).toISOString().slice(0,10);
+const OBJ = {convite:["Convite (grupo / live / aula)","#009BBE"], oferta:["Oferta / venda","#b7791f"], promo:["Promoção com cupom","#b45309"], blindado:["Blindado / carrinho (régua)","#2563eb"],
+  black:["Black","#111827"], retomada:["Retomada","#8fd3e2"], agendamento:["Agendamento","#a78bfa"], teste:["Teste","#cbd5e1"], outro:["Outro","#94a3b8"]};
+const OBJ_ORDEM = ["convite","oferta","promo","blindado","black","retomada","agendamento","outro","teste"];
+const FR = {TJAM:"TJ-AM", PRF:"PRF", SEDUC_AM:"SEDUC-AM", SEDUC_PA:"SEDUC-PA", POLICIAS:"Polícias AM", SEMSA:"SEMSA", INSS:"INSS", MANAUSPREV:"ManausPrev", SES_AM:"SES-AM", POS:"Pós", BLACK:"Black", VARIAS:"Várias frentes", OUTRAS:"Outras"};
+const frN = f => FR[f] || f || "—";
+const objBdg = o => `<span class="bdg ob" style="background:${(OBJ[o]||OBJ.outro)[1]}">${esc((OBJ[o]||OBJ.outro)[0].split(" (")[0])}</span>`;
+const METR = {grupo:"no grupo", vendas:"vendas", respostas:"responderam"};
+
+function relogio(){ $("clock").textContent = new Date().toLocaleString("pt-BR",{timeZone:"America/Manaus", day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit"}).replace(",", " ·"); }
+relogio(); setInterval(relogio, 30000);
+
+// ---------- período ----------
+let PER = {ini:null, fim:null, modo:"30"};
+function calcPeriodo(modo){
+  const h = hojeManaus();
+  if (modo === "7") return {ini: addDays(h,-6), fim: h};
+  if (modo === "30") return {ini: addDays(h,-29), fim: h};
+  if (modo === "mes") return {ini: h.slice(0,8)+"01", fim: h};
+  if (modo === "mes-1"){ const d = new Date(h.slice(0,7)+"-01T12:00:00Z"); d.setUTCMonth(d.getUTCMonth()-1); const i = d.toISOString().slice(0,10); return {ini:i, fim: addDays(h.slice(0,8)+"01",-1)}; }
+  return {ini:null, fim:null};
+}
+document.querySelectorAll("#periodo button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("#periodo button").forEach(x => x.classList.remove("on")); b.classList.add("on");
+  PER = {...calcPeriodo(b.dataset.p), modo:b.dataset.p}; $("ini").value = PER.ini||""; $("fim").value = PER.fim||""; load();
+}));
+for (const id of ["ini","fim"]) $(id).addEventListener("change", () => {
+  document.querySelectorAll("#periodo button").forEach(x => x.classList.remove("on"));
+  PER = {ini: $("ini").value||null, fim: $("fim").value||null, modo:"custom"}; load();
+});
+for (const id of ["f-frente","f-obj","f-agente","f-busca","f-testes","f-zero"]) $(id).addEventListener("input", () => RAW && renderAll(RAW));
+PER = {...calcPeriodo("30"), modo:"30"}; $("ini").value = PER.ini; $("fim").value = PER.fim;
+
+let RAW = null, SORT = {col:"dia_ref", dir:-1};
+async function load(){
+  $("wrap").classList.add("loading");
+  try{
+    const q = new URLSearchParams({k:K}); if (PER.ini) q.set("ini", PER.ini); if (PER.fim) q.set("fim", PER.fim);
+    const r = await fetch(API + "?" + q.toString(), {headers:{Authorization:"Bearer "+ANON, apikey:ANON}});
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    RAW = d;
+    $("err").style.display = "none";
+    $("upd").textContent = hora(d.generated_at);
+    $("tarifa").textContent = String(d.tarifa||0.43).replace(".",",");
+    fillSelects(d);
+    renderAll(d);
+  }catch(e){
+    $("err").style.display = "block";
+    $("err").textContent = "Falha ao carregar os dados: " + e.message + (K ? "" : " — confira o token ?k= na URL.");
+  }
+  $("wrap").classList.remove("loading");
+}
+
+function fillSelects(d){
+  const keep = id => $(id).value;
+  const opts = (id, vals, lab) => { const v = keep(id); $(id).innerHTML = $(id).options[0].outerHTML + vals.map(x => `<option value="${esc(x)}">${esc(lab ? lab(x) : x)}</option>`).join(""); $(id).value = vals.includes(v) ? v : ""; };
+  const camps = d.campanhas||[];
+  opts("f-frente", [...new Set(camps.map(c => c.frente))].sort(), frN);
+  opts("f-obj", OBJ_ORDEM.filter(o => camps.some(c => c.objetivo === o)), o => OBJ[o][0]);
+  opts("f-agente", [...new Set(camps.map(c => c.agent_slug))].sort());
+}
+
+function filtrar(d){
+  const fr = $("f-frente").value, ob = $("f-obj").value, ag = $("f-agente").value, q = $("f-busca").value.trim().toLowerCase();
+  const testes = $("f-testes").checked, zero = $("f-zero").checked;
+  return (d.campanhas||[]).filter(c => (!fr || c.frente === fr) && (!ob || c.objetivo === ob) && (!ag || c.agent_slug === ag)
+    && (testes || c.objetivo !== "teste") && (zero || (c.sent||0) > 0)
+    && (!q || (c.name||"").toLowerCase().includes(q) || (c.template||"").toLowerCase().includes(q)));
+}
+const soma = (arr, k) => arr.reduce((s,c) => s + (+c[k]||0), 0);
+const cls = (p, lo, hi) => p==null ? "" : p >= hi ? "ok" : p >= lo ? "mid" : "bad";
+
+function renderAll(d){
+  const camps = filtrar(d);
+  const ids = new Set(camps.map(c => c.campaign_id));
+  const env = soma(camps,"sent"), custo = soma(camps,"custo"), resp = soma(camps,"respostas"), opt = soma(camps,"optouts"), gr = soma(camps,"grupo");
+  const vendas = soma(camps,"vendas"), infl = soma(camps,"vendas_infl"), rec = soma(camps,"receita");
+  // rail
+  const per = PER.ini ? `${ddmm(PER.ini)} a ${ddmm(PER.fim||hojeManaus())}` : "desde jul/26";
+  $("rail").innerHTML = `<div class="cd"><span class="n">${fmtN(camps.length)}</span><span class="l">campanhas · ${esc(per)}</span></div>
+    <div class="cd"><span class="n">${fmtN(env)}</span><span class="l">envios</span></div>
+    <div class="cd"><span class="n gold">${fmtR(rec)}</span><span class="l">receita líquida · último toque</span></div>
+    <div class="cd"><span class="n ${rec > custo ? "ok" : ""}">${fmtX(rec, custo)}</span><span class="l">ROI sobre R$ ${fmtN(custo)} de envio</span></div>
+    <div class="cd"><span class="n">${fmtN((d.fila||[]).length)}</span><span class="l">na fila (rascunho / agendado / pausado)</span></div>`;
+  // KPIs
+  $("k-env").textContent = fmtN(env); $("k-env-s").textContent = `${fmtN(camps.length)} campanhas · ${fmtN(soma(camps,"skipped_existing")+soma(camps,"skipped_optout"))} pulados · ${fmtN(soma(camps,"failed"))} falhas`;
+  $("k-custo").textContent = fmtR(custo); $("k-custo-s").textContent = `R$ ${String(d.tarifa).replace(".",",")} por envio · ${vendas ? "CPA " + fmtR(custo/vendas) : "sem venda atribuída"}`;
+  $("k-resp").textContent = fmtN(resp); $("k-resp-s").textContent = `${fmtPct(pct(resp,env))} dos enviados · ${fmtN(gr)} entraram em grupo (${fmtPct(pct(gr,env))})`;
+  $("k-opt").textContent = fmtN(opt); $("k-opt-s").textContent = `${fmtPct(pct(opt,env))} dos enviados · meta: abaixo de 2%`;
+  $("k-vendas").textContent = fmtN(vendas); $("k-vendas-s").textContent = `${fmtN(infl)} influenciadas (número antigo) · ${fmtPct(pct(vendas,env))} dos enviados`;
+  $("k-rec").textContent = fmtR(rec); $("k-rec-s").textContent = `ROI ${fmtX(rec,custo)} · ticket médio ${vendas ? fmtR(rec/vendas) : "—"}`;
+
+  // linha do tempo
+  const porDia = {}; for (const e of (d.por_dia||[])) ((porDia[e.dia] ??= {}))[e.objetivo] = (porDia[e.dia][e.objetivo]||0) + e.enviados;
+  // filtro de objetivo/frente na linha do tempo: por_dia vem por objetivo (sem frente); respeita o filtro de objetivo
+  const ob = $("f-obj").value, testes = $("f-testes").checked;
+  const evd = {}; for (const e of (d.eventos_dia||[])) ((evd[e.dia] ??= {}))[e.kind] = e;
+  let dias = Object.keys(porDia).sort();
+  if (PER.ini) dias = dias.filter(x => x >= PER.ini && x <= (PER.fim||hojeManaus()));
+  let buckets = dias.map(x => [x, porDia[x], evd[x]||{}]), rot = ddmm, semana = false;
+  if (dias.length > 45){ // agrupa por semana (segunda)
+    semana = true; const w = {};
+    for (const [x, v, ev] of buckets){ const dt = new Date(x+"T12:00:00Z"); const mon = addDays(x, -((dt.getUTCDay()+6)%7)); const b = (w[mon] ??= [mon, {}, {}]);
+      for (const k in v) b[1][k] = (b[1][k]||0) + v[k]; for (const k in ev){ b[2][k] ??= {n:0,val:0}; b[2][k].n += ev[k].n; b[2][k].val += +ev[k].val; } }
+    buckets = Object.values(w).sort((a,b) => a[0] < b[0] ? -1 : 1); rot = x => "sem " + ddmm(x);
+  }
+  const vis = o => (!ob || o === ob) && (testes || o !== "teste");
+  const maxD = Math.max(1, ...buckets.map(([,v]) => Object.entries(v).filter(([o]) => vis(o)).reduce((a,[,n]) => a+n, 0)));
+  $("vday").innerHTML = buckets.map(([x, v, ev]) => {
+    const tot = Object.entries(v).filter(([o]) => vis(o)).reduce((a,[,n]) => a+n, 0);
+    const segs = OBJ_ORDEM.filter(vis).map(o => `<div class="seg2" style="height:${Math.round(110*(v[o]||0)/maxD)}px;background:${OBJ[o][1]}" title="${OBJ[o][0]}: ${fmtN(v[o]||0)}"></div>`).join("");
+    const vd = ev.venda?.n || 0;
+    return `<div class="vb"><div class="dv">${tot ? fmtN(tot) : ""}</div><div class="stack">${segs}</div><div class="ev" title="vendas por último toque">${vd ? vd + "🛒" : "&nbsp;"}</div><div class="dl">${rot(x)}</div></div>`;
+  }).join("") || `<div class="all-ok">Nenhum envio no período.</div>`;
+  $("legenda").innerHTML = OBJ_ORDEM.filter(o => buckets.some(([,v]) => v[o])).map(o => `<span><i style="background:${OBJ[o][1]}"></i>${OBJ[o][0]}</span>`).join("");
+  $("vday-note").textContent = semana ? "Período longo: barras agrupadas por semana (segunda a domingo)." : "";
+
+  // por frente / objetivo
+  const agrupar = (key, lab) => {
+    const g = {}; for (const c of camps) (g[c[key]] ??= []).push(c);
+    const linhas = Object.entries(g).map(([k, arr]) => ({k, n:arr.length, sent:soma(arr,"sent"), custo:soma(arr,"custo"), resp:soma(arr,"respostas"), grupo:soma(arr,"grupo"), opt:soma(arr,"optouts"), vendas:soma(arr,"vendas"), infl:soma(arr,"vendas_infl"), rec:soma(arr,"receita")}))
+      .sort((a,b) => b.sent - a.sent);
+    let t = `<tr><th>${lab}</th><th>Camp.</th><th>Enviados</th><th>Custo</th><th>Resp.</th><th>Grupo</th><th>Opt-out</th><th>Vendas</th><th>Receita líq.</th><th>ROI</th></tr>`;
+    for (const l of linhas) t += `<tr><td>${key === "objetivo" ? objBdg(l.k) : esc(frN(l.k))}</td><td>${fmtN(l.n)}</td><td>${fmtN(l.sent)}</td><td>${fmtR(l.custo)}</td>
+      <td class="${cls(pct(l.resp,l.sent),.05,.12)}">${fmtPct(pct(l.resp,l.sent))}</td><td>${l.grupo ? fmtPct(pct(l.grupo,l.sent)) : "—"}</td><td class="${pct(l.opt,l.sent) > .02 ? "bad" : ""}">${fmtPct(pct(l.opt,l.sent))}</td>
+      <td>${fmtN(l.vendas)} <small>(${fmtN(l.infl)})</small></td><td>${fmtR(l.rec)}</td><td class="${l.rec > l.custo ? "ok" : ""}">${fmtX(l.rec,l.custo)}</td></tr>`;
+    t += `<tr class="tot"><td>Total</td><td>${fmtN(camps.length)}</td><td>${fmtN(env)}</td><td>${fmtR(custo)}</td><td>${fmtPct(pct(resp,env))}</td><td>${gr ? fmtPct(pct(gr,env)) : "—"}</td><td>${fmtPct(pct(opt,env))}</td><td>${fmtN(vendas)} <small>(${fmtN(infl)})</small></td><td>${fmtR(rec)}</td><td>${fmtX(rec,custo)}</td></tr>`;
+    return t;
+  };
+  $("por-frente").innerHTML = agrupar("frente", "Frente");
+  $("por-obj").innerHTML = agrupar("objetivo", "Objetivo");
+
+  // campanhas
+  const cols = [["name","Campanha"],["status","Status"],["dia_ref","Início"],["total","Base"],["sent","Enviados"],["pulados","Pulados"],["respostas","Resp."],["grupo","Grupo"],["optouts","Opt-out"],["vendas","Vendas"],["receita","Receita líq."],["custo","Custo"],["roi","ROI"]];
+  const val = (c, k) => k === "pulados" ? (c.skipped_existing||0)+(c.skipped_optout||0) : k === "roi" ? (c.custo > 0 ? c.receita/c.custo : -1) : c[k];
+  const ordenadas = camps.slice().sort((a,b) => { const x = val(a,SORT.col), y = val(b,SORT.col); if (x==null && y==null) return 0; if (x==null) return 1; if (y==null) return -1; return (x < y ? -1 : x > y ? 1 : 0) * SORT.dir; });
+  let t = `<tr>${cols.map(([k,l]) => `<th class="sortable ${SORT.col===k ? "sorted" : ""}" data-col="${k}">${l}${SORT.col===k ? (SORT.dir<0 ? " ▾" : " ▴") : ""}</th>`).join("")}</tr>`;
+  for (const c of ordenadas){
+    const pul = (c.skipped_existing||0)+(c.skipped_optout||0), roi = c.custo > 0 ? c.receita/c.custo : null;
+    const hl = k => c.metrica === k ? "hl" : "";
+    t += `<tr><td>${esc(c.name)}${c.rotulo_manual ? ' <span class="bdg manual">manual</span>' : ""}<span class="msg"><span class="bdg fr">${esc(frN(c.frente))}</span> ${objBdg(c.objetivo)} <small>${esc(c.agent_slug)}${c.template ? " · " + esc(c.template) : ""}${c.ignorar_conversa_ia ? " · ignora conversa IA" : ""}</small></span></td>
+      <td><span class="bdg ${esc(c.status)}">${esc(c.status)}</span></td><td>${c.first_sent_at ? hora(c.first_sent_at) : (c.scheduled_at ? "agendado " + hora(c.scheduled_at) : ddmm(c.dia_ref))}</td>
+      <td>${fmtN(c.total)}</td><td>${fmtN(c.sent)}${c.pending ? ` <small>+${fmtN(c.pending)} pend.</small>` : ""}</td><td class="${pul ? "" : "dim"}" title="${fmtN(c.skipped_existing)} em conversa · ${fmtN(c.skipped_optout)} opt-out">${fmtN(pul)}${c.failed ? ` <small class="bad">${fmtN(c.failed)} falhas</small>` : ""}</td>
+      <td class="${hl("respostas")}">${fmtN(c.respostas)} <small>${fmtPct(pct(c.respostas,c.sent))}</small></td>
+      <td class="${hl("grupo")}">${c.grupo ? `${fmtN(c.grupo)} <small>${fmtPct(pct(c.grupo,c.sent))}</small>` : "—"}</td>
+      <td class="${pct(c.optouts,c.sent) > .02 ? "bad" : ""}">${fmtN(c.optouts)} <small>${fmtPct(pct(c.optouts,c.sent))}</small></td>
+      <td class="${hl("vendas")}">${fmtN(c.vendas)} <small>(${fmtN(c.vendas_infl)})</small></td><td>${c.receita ? fmtR(c.receita) : "—"}</td><td>${fmtR2(c.custo)}</td><td class="${roi > 1 ? "ok" : ""}">${fmtX(c.receita,c.custo)}</td></tr>`;
+  }
+  t += `<tr class="tot"><td>Total (${fmtN(camps.length)} campanhas)</td><td></td><td></td><td>${fmtN(soma(camps,"total"))}</td><td>${fmtN(env)}</td><td>${fmtN(soma(camps,"skipped_existing")+soma(camps,"skipped_optout"))}</td><td>${fmtN(resp)} <small>${fmtPct(pct(resp,env))}</small></td><td>${fmtN(gr)}</td><td>${fmtN(opt)} <small>${fmtPct(pct(opt,env))}</small></td><td>${fmtN(vendas)} <small>(${fmtN(infl)})</small></td><td>${fmtR(rec)}</td><td>${fmtR(custo)}</td><td>${fmtX(rec,custo)}</td></tr>`;
+  $("campanhas").innerHTML = t;
+  $("camp-count").textContent = `${fmtN(camps.length)} de ${fmtN((d.campanhas||[]).length)} campanhas do período`;
+  document.querySelectorAll("#campanhas th.sortable").forEach(th => th.addEventListener("click", () => { const c = th.dataset.col; SORT = {col:c, dir: SORT.col === c ? -SORT.dir : (c === "name" || c === "status" ? 1 : -1)}; renderAll(RAW); }));
+
+  // saúde: fadiga
+  const fad = Object.fromEntries((d.fadiga||[]).map(f => [f.toques, f.fones]));
+  const totF = Object.values(fad).reduce((a,n) => a+n, 0);
+  $("fadiga").innerHTML = ["1","2","3","4+"].map(k => `<div class="f ${k === "3" ? "warn" : k === "4+" ? "bad" : ""}"><div class="n">${fmtN(fad[k]||0)}</div><div class="l">${k} toque${k === "1" ? "" : "s"} · ${fmtPct(pct(fad[k]||0, totF))}</div></div>`).join("") +
+    `<div class="f"><div class="n">${fmtN(totF)}</div><div class="l">telefones tocados em 30 dias</div></div>`;
+  let tf = `<tr><th>Frente (30 dias)</th><th>Telefones</th><th>3+ toques</th><th>Média</th></tr>`;
+  for (const f of (d.fadiga_frente||[])) tf += `<tr><td>${esc(frN(f.frente))}</td><td>${fmtN(f.fones)}</td><td class="${pct(f.fones_3mais,f.fones) > .15 ? "bad" : ""}">${fmtN(f.fones_3mais)} <small>${fmtPct(pct(f.fones_3mais,f.fones))}</small></td><td>${String(f.media).replace(".",",")}</td></tr>`;
+  $("fadiga-frente").innerHTML = tf;
+  const se = soma(camps,"skipped_existing"), so = soma(camps,"skipped_optout"), fa = soma(camps,"failed"), pe = soma(camps,"pending");
+  $("pulados").innerHTML = [["Pulados · já em conversa com a IA", se], ["Pulados · opt-out", so], ["Falhas", fa], ["Pendentes", pe]].map(([l,n]) => `<div class="f"><div class="n">${fmtN(n)}</div><div class="l">${l}</div></div>`).join("");
+
+  // opt-out por template
+  const ot = (d.optout_template||[]).filter(x => ids.size === 0 || true);
+  let to = `<tr><th>Template</th><th>Camp.</th><th>Enviados</th><th>Opt-outs</th><th>%</th></tr>`;
+  for (const x of ot.slice(0, 15)) to += `<tr><td style="min-width:0">${esc(x.template||"(sem template)")}</td><td>${fmtN(x.campanhas)}</td><td>${fmtN(x.enviados)}</td><td>${fmtN(x.optouts)}</td><td class="${x.pct > 2 ? "bad" : x.pct > 1 ? "mid" : "ok"}">${String(x.pct||0).replace(".",",")}%</td></tr>`;
+  $("optout-tpl").innerHTML = ot.length ? to : `<tr><td>Nenhum template com 100+ envios no período.</td></tr>`;
+
+  // fila
+  const fila = d.fila||[];
+  if (!fila.length) $("fila").innerHTML = `<div class="all-ok">Nada na fila: nenhum rascunho, agendamento ou campanha pausada.</div>`;
+  else {
+    let f = `<div class="rs-wrap"><table class="rs"><tr><th>Campanha</th><th>Status</th><th>Agendada para</th><th>Base</th><th>Enviados</th><th>Pendentes</th><th>Cap/dia</th><th>Criada</th></tr>`;
+    for (const c of fila) f += `<tr><td>${esc(c.name)}<span class="msg"><span class="bdg fr">${esc(frN(c.frente))}</span> ${objBdg(c.objetivo)} <small>${esc(c.agent_slug)}${c.template ? " · " + esc(c.template) : ""}${c.ignorar_conversa_ia ? " · ignora conversa IA" : ""}</small></span></td>
+      <td><span class="bdg ${esc(c.status)}">${esc(c.status)}</span></td><td>${c.scheduled_at ? hora(c.scheduled_at) : "—"}</td><td>${fmtN(c.total)}</td><td>${fmtN(c.sent)}</td><td>${fmtN(c.pending)}</td><td>${c.daily_cap ? fmtN(c.daily_cap) : "—"}</td><td>${hora(c.created_at)}</td></tr>`;
+    $("fila").innerHTML = f + `</table></div>`;
+  }
+
+  // saúde dos dados
+  const s = d.sync||{};
+  const late = (ts, h) => ts && (Date.now() - Date.parse(ts)) > h*3600e3;
+  $("sync").innerHTML = [["Campanhas da Anne", s.disparos_at, 1], ["Envios", s.recipients_at, 1], ["Respostas dos leads", s.contatos_at, 1], ["Opt-outs", s.optouts_at, 1],
+    ["Última entrada em grupo (Sendflow)", s.membros_at, 48], ["Hubla (faturas)", s.hubla_at, 24]].map(([l, ts, h]) => `<span>${l}: <b class="${late(ts, h) ? "late" : ""}">${hora(ts)}</b></span>`).join("");
+}
+
+load();
+setInterval(load, 300000); // 5 min, mesmo ritmo do espelho
+</script>
+</body>
+</html>
