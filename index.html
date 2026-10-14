@@ -65,6 +65,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
 /* tabela */
 .rs-wrap{overflow-x:auto}
 .rs{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px}
+#por-obj,#por-frente{min-width:0}
 .rs th{text-align:right;color:var(--muted);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--grid);white-space:nowrap}
 .rs th.sortable{cursor:pointer} .rs th.sorted{color:var(--cyan)}
 .rs th:first-child,.rs td:first-child{text-align:left}
@@ -128,7 +129,7 @@ footer{color:var(--muted);font-size:11.5px;margin-top:22px;text-align:center}
 
 <div class="tools">
   <div class="seg" id="periodo">
-    <button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="mes">Este mês</button><button data-p="mes-1">Mês passado</button><button data-p="tudo">Tudo</button>
+    <button data-p="hoje">Hoje</button><button data-p="ontem">Ontem</button><button data-p="semana">Esta semana</button><button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="mes">Este mês</button><button data-p="mes-1">Mês passado</button><button data-p="tudo">Tudo</button>
   </div>
   <input type="date" id="ini" title="Início"> <input type="date" id="fim" title="Fim">
   <select id="f-frente"><option value="">Todas as frentes</option></select>
@@ -167,15 +168,13 @@ footer{color:var(--muted);font-size:11.5px;margin-top:22px;text-align:center}
   <div class="note" id="vday-note"></div>
 </div>
 
-<div class="grid g-two">
-  <div class="card">
-    <div class="card-head"><div><h2>Funil por frente</h2><div class="hint">Soma das campanhas filtradas · % sobre enviados · ROI = receita líquida ÷ custo</div></div></div>
-    <div class="rs-wrap"><table class="rs" id="por-frente"></table></div>
-  </div>
-  <div class="card">
-    <div class="card-head"><div><h2>Por objetivo</h2><div class="hint">Cada objetivo tem sua métrica mestra: convite e Black = grupo · oferta, promo e blindado = vendas · demais = respostas</div></div></div>
-    <div class="rs-wrap"><table class="rs" id="por-obj"></table></div>
-  </div>
+<div class="card">
+  <div class="card-head"><div><h2>Por objetivo</h2><div class="hint">Cada objetivo tem sua métrica mestra: convite e Black = grupo · oferta, promo e blindado = vendas · demais = respostas · ROI = receita líquida ÷ custo</div></div></div>
+  <div class="rs-wrap"><table class="rs" id="por-obj"></table></div>
+</div>
+<div class="card">
+  <div class="card-head"><div><h2>Funil por frente</h2><div class="hint">Soma das campanhas filtradas · % sobre enviados · ROI = receita líquida ÷ custo</div></div></div>
+  <div class="rs-wrap"><table class="rs" id="por-frente"></table></div>
 </div>
 
 <!-- CAMPANHAS -->
@@ -247,6 +246,9 @@ relogio(); setInterval(relogio, 30000);
 let PER = {ini:null, fim:null, modo:"30"};
 function calcPeriodo(modo){
   const h = hojeManaus();
+  if (modo === "hoje") return {ini: h, fim: h};
+  if (modo === "ontem") return {ini: addDays(h,-1), fim: addDays(h,-1)};
+  if (modo === "semana"){ const dow = (new Date(h+"T12:00:00Z").getUTCDay()+6)%7; return {ini: addDays(h,-dow), fim: h}; } // segunda a hoje
   if (modo === "7") return {ini: addDays(h,-6), fim: h};
   if (modo === "30") return {ini: addDays(h,-29), fim: h};
   if (modo === "mes") return {ini: h.slice(0,8)+"01", fim: h};
